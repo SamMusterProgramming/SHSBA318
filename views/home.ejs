@@ -5,25 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body style="display: flex; flex-direction: column;justify-content: center;align-items: center;">
+<body style = "display: flex; flex-direction:column; justify-content:center; align-items: center;">
+
+           <h2>Welcome to our users / posts platform</h2>
+           
            <div style = "display:flex; margin-top: 120px;  flex-direction:
-               column; justify-content: center; ">
-                 <h2>Welcome to our users / posts platform</h2>
-                 <div style="display:flex; flex-direction: column; border: 2px solid black;
-                    justify-content: start;align-items: center;gap:25px;background-color: rgb(201, 132, 43); border-radius: 15px;">
+                 column; justify-content: center; width: 40%; ">
+                 <div style="display:flex; flex-direction: column; 
+                    justify-content: start;align-items:center;gap:25px;background-color: rgb(201, 132, 43);border-radius:15px;">
+                    <% if (action == "login") { %>
+                    <form action="http://localhost:8080/users/login" method="post"
+                     style="display:flex; flex-direction: column; 
+                     justify-content: start;align-items:center;gap:25px;background-color: rgb(201, 132, 43);border-radius:15px;">
+                     >
                     <h3> Register </h3>
                     <input type="text" name="username" placeholder="username/email"  />
                     <input type="password" name="password" placeholder="password"  />
                     <button type="submit"> LOGIN</button> 
                     <p style="color:white">don't have account yet , register below</p>
-                    <a href="http://localhost:8080/register"></a> 
+                    <a style="margin-bottom:30px;color: rgb(9, 105, 208);" href="http://localhost:8080/register">REGISTER</a> 
+                    </form> 
+                    <% } %>
+                    <% if (action == "register") { %> 
+                    <form action="http://localhost:8080/api/users/register" 
+                     method="post"
+                     style="display:flex; flex-direction: column; 
+                     justify-content: start;align-items:center;gap:25px;background-color: rgb(201, 132, 43);border-radius:15px;">
+                     >    
+                        <h3> Register </h3>
+                        <input type="text" name="username" placeholder="username" required/>
+                        <input type="email" name="email" placeholder="email" required />
+                        <input type="password" name="password" placeholder="password" required />
+                        <input type="password" name="confirmpassword" placeholder="confirm password" required />
+                        <button style="background-color: rgb(6, 200, 61);" type="submit"> Register</button> 
+                        <p style="color:white">if you have an account , login below</p>
+                        <a style="margin-bottom: 30px;" href="http://localhost:8080/">LOGIN</a> 
+                    </form>
+                    <% } %>
                 </div>
             </div>
+       
+
+        
+
 
       <style>
         input {
-            width: 220px;
-            height: 25px;
+            width: 280px;
+            height: 20px;
             background-color: rgb(234, 213, 213);
             border: none;
             padding: 15px;

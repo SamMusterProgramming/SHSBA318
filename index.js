@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(urlencodedParser)
 
 //routes to users, posts
-app.use('api/users', usersRoute)
+app.use('/api/users', usersRoute)
 
 //use app view to access templates , I am using ejs to render templates
 app.set("view engine", "ejs");
@@ -19,12 +19,16 @@ app.set("home", "./views");
 app.set("post", "./views");
 
 // routes
+let action = "login"
 app.get('/',(req,res) => {
-    res.render('home')
+    res.render('home' , {action:"login"})
+})
+app.get('/register',(req,res) => {
+    res.render('home' , {action:"register"})
 })
 
 
 app.listen(PORT,()=> {
-  console.log(`listening on port ${PORT}`)
+   console.log(`listening on port ${PORT}`)
 })
 
