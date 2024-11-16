@@ -57,8 +57,10 @@ router.post('/register',(req,res)=> {
 // access specific user by parameter / query  
 router.route('/:id')
    .get((req,res)=> {
-      
-   })
+      const user_id = req.params.id ; 
+      const user = users.find(user => user.id == user_id)
+      res.render('users', {user:user}) 
+   })  
    .post((req,res)=> {
     
    })

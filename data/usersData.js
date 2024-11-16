@@ -27,7 +27,7 @@ let users = [
         id:4,
         name: "Kamala Harris",
         username:"kamalaHarris",
-        email:"kamalaharissGOV@gmail.com",
+        email:"kamalaharissGOV@gmail.gov",
         password :"kamala2024",
         profile_img : "http://localhost:8080/static/asset/samir.jpeg"
     }

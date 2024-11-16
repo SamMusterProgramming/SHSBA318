@@ -6,6 +6,7 @@ const posts = [ {
     image_url : "http://localhost:8080/static/asset/45.jpg",
     description : "",
     date : new Date('now'),
+    likes_count:1256,
     comments_id: 100 
 },{  
     id : 2,
@@ -13,6 +14,7 @@ const posts = [ {
     image_url : 'http://localhost:8080/static/asset/46.jpg',
     description : "",
     date : new Date(),
+    likes_count:568,
     comments_id: 100 
 },{
     id : 3,
@@ -20,6 +22,7 @@ const posts = [ {
     image_url : 'http://localhost:8080/static/asset/48.jpg',
     description : "",
     date : new Date(),
+    likes_count:8652,
     comments_id: 100 
 },{
     id : 4,
@@ -27,6 +30,7 @@ const posts = [ {
     image_url : 'http://localhost:8080/static/asset/51.jpg',
     description : "",
     date : new Date(),
+    likes_count : 3568,
     comments_id: 100 
 }
 ]
