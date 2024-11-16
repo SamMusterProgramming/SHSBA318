@@ -3,6 +3,7 @@ const router = express.Router();
 const bodyParser = require('body-parser')
 const users = require('../data/usersData.js') 
 
+
 let session = null;
 let user_id = 5;
 
@@ -29,12 +30,12 @@ router.route('/login').
     }).post((req,res)=> {
         // log user session here
         if(!session){
-        const user = users.find(user => user.email == req.body.username.toLowerCase() && user.password == req.body.password)
+        const user = users.find(user => user.email == req.body.email && user.password == req.body.password)
         if(user)
-        return res.render("users",{user:user})
+        return res.render("users",{user:user,posts:null})
         else return res.redirect('/api')
         }
-        return res.render("users",{user:session})
+        return res.render("users",{user:session,posts:null})
      })
 
 router.post('/register',(req,res)=> {
@@ -57,12 +58,14 @@ router.post('/register',(req,res)=> {
 // access specific user by parameter / query  
 router.route('/:id')
    .get((req,res)=> {
-      const user_id = req.params.id ; 
+      const user_id = req.params.id; 
+      console.log(user_id)  
       const user = users.find(user => user.id == user_id)
-      res.render('users', {user:user}) 
+      console.log(user)
+      res.render('users', { user:user, posts:null}) 
    })  
-   .post((req,res)=> {
-    
+   .patch((req,res)=> {  
+     
    })
    .delete((req,res)=> {
     

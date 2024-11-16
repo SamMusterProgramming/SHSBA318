@@ -1,5 +1,13 @@
 let users = [
     {
+        id:0 , // this is for the admin , I chose Tishana our instructor to be the admin
+        name : "Tishana Trainor",
+        username : "tishanaT2024",
+        email: "tTrainor@perscholas.org",
+        password :"tishana",
+        profile_img: "http://localhost:8080/static/asset/tishana.jpeg"
+    },
+    {
         id:1,
         name: "Samir Haddadi",
         username:"Samirhaddadi2024",

@@ -3,13 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="path/to/font-awesome/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <title>user home page</title>
 </head>
 <body>
+
     <div style="display: flex;flex-direction: column;justify-content: start;align-items: center;">
         <h2> welcome  <span style="color: blue;">    <%= user.name  %>  </span></h2>
-        <a href="http://localhost:8080">Access your posts here</a>
+        <div style="display: flex;justify-content: center; align-items: center;
+          width: 300px; height: 300px;border-radius:15px;background-color: rgb(25, 123, 193);">
+          <img style="width: 95%;height: 95%;object-fit: cover;border-radius: 50%;"  src= "<%= user.profile_img  %>" alt="">
+        </div>
+        <a style="margin-top: 40px;" href="http://localhost:8080/api/posts/ <%= user.id %> ">Access your posts here</a>
     </div>
-      
+
+    <div style="margin-top: 30px; display:flex; flex-wrap: wrap; width:100%;height:100%; gap:20px; justify-content: center; ">
+        <% if (posts) { %>
+        <% posts.forEach(function(post) { %>
+         <div style="display:flex;flex-direction: column;width: 18%; height: 350px;align-items:
+          center;justify-content:center; background-color: antiquewhite;">
+              <div style="display: flex; justify-content: start;align-items:
+               center; gap:10px;margin-left: 30px; width: 100%; height: 15%;">
+                 <img id="profileImg" src="<%= user.profile_img %>" alt="">  
+                 <h5><%= user.name %></h5>  
+                 <a href="http://localhost:8080/api/users/<%= post.user_id %>"><%= user.email %></a> 
+              </div>
+              <div style="display: flex;align-items: center;justify-content: center;width: 100%; height: 75%;">
+                 <img id="post" src="<%= post.image_url %>" alt="">
+              </div>
+              <div style="display: flex;justify-content: space-evenly; align-items: center;
+                 width: 100%;height: 10%;">
+                  <button style="background-color: transparent; border: none;cursor: pointer;" > <i  class="fa fa-thumbs-up"> <%= post.likes_count %></i></button>
+                  <button ><i class="fa fa-chat-dots"></i> Comments</button>
+                  <button ><i class="fa fa-share"></i> Share</button>
+              </div>
+         </div>
+        <% }); %>
+        <% } %>
+   </div>  
+   
+    <style>
+    a {
+        font-size: 15px;
+    }
+    #profileImg{
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      object-fit: fill;
+    }
+    #post  {
+     width: 90%;
+     height: 100%;
+     object-fit: cover;
+     border-radius: 10px;   
+    }
+
+    </style>
+
+
 </body>
 </html>
