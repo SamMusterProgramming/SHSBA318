@@ -17,7 +17,7 @@ router.route('/')
     .post((req,res)=> {
     // add a post here    
 })   
-  
+     
 router.route('/:id')
     .get((req,res) => {
         // here I will filter the posts by user_id , return all posts with user_id
@@ -26,7 +26,7 @@ router.route('/:id')
         const userPosts =  posts.filter(post => post.user_id == user_id)
         const user = users.find(user => user.id == user_id) // we need the user to pass it to the users template
         console.log(user)
-        res.render('users',{ user:user,posts:userPosts})
+        res.render('users',{ user:user,posts:userPosts,users:null})
     })  
 
 
