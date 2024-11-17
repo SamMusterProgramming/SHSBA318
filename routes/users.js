@@ -42,7 +42,7 @@ router.route('/login')
             return res.redirect('/api') 
       })
       .post((req,res)=> {   
-            // log the existent user here      
+            // log the existent user here        
             if(!session){    
             const user = users.find(user => user.email == req.body.email && user.password == req.body.password)
             if(user){
@@ -52,7 +52,7 @@ router.route('/login')
             else return res.redirect('/api')
             }
             return res.render("users",{user:session,posts:null,users:null})
-})
+}) 
 
 
 // access specific user by parameter / query  
