@@ -24,8 +24,7 @@ app.set("posts", "./views");
 
   
 // routes
-app.get('/api',(req,res) => {
-    // if the session is created, we log in the user by redirct him to user page 
+app.get('/api',(req,res) => { 
    res.render('home' , {action:"login"})
 })
 app.get('/api/register',(req,res) => {
