@@ -5,7 +5,7 @@ let users = [
         username : "tishanaT2024",
         email: "tishanaTrainor@gmail.com",
         password :"tishana",
-        profile_img: "http://localhost:8080/static/asset/tishana.jpeg"
+        profile_img: "/static/asset/tishana.jpeg"
     },
     {
         id:1,
@@ -13,7 +13,7 @@ let users = [
         username:"Samirhaddadi2024",
         email:"samcoeur2013@gmail.com",
         password :"samir",
-        profile_img : "http://localhost:8080/static/asset/samir.jpeg"
+        profile_img : "/static/asset/samir.jpeg"
     },
     {
         id:2,
@@ -21,7 +21,7 @@ let users = [
         username:"JohnSmith123",
         email:"JohnSmith@gmail.com",
         password :"john2023",
-        profile_img : "http://localhost:8080/static/asset/samir.jpeg"
+        profile_img : "/static/asset/avatar.avif"
     },
     {
         id:3,
@@ -29,7 +29,7 @@ let users = [
         username:"nestaparchement2024",
         email:"nestaP@gmail.com",
         password :"nesta",
-        profile_img : "http://localhost:8080/static/asset/samir.jpeg"
+        profile_img : "/static/asset/avatar.avif"
     },
     {
         id:4,
@@ -37,7 +37,7 @@ let users = [
         username:"kamalaHarris",
         email:"kamalaharissGOV@gmail.gov",
         password :"kamala2024",
-        profile_img : "http://localhost:8080/static/asset/samir.jpeg"
+        profile_img : "/static/asset/avatar.avif"
     }
 ]
 

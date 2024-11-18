@@ -4,21 +4,21 @@ const postsRoute = require('./routes/posts')
 const bodyParser = require('body-parser')
 
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
-const PORT = process.env.PORT || 8080 ; 
+const PORT = process.env.PORT || 8000 ; 
 const app = express();
 
 app.use(express.json());
 app.use(urlencodedParser)
-
-//routes to users, posts
+         
+//routes to users, posts    
 app.use('/api/users', usersRoute)
-app.use('/api/posts', postsRoute)
+app.use('/api/posts', postsRoute)     
 app.use('/static', express.static('public'))
 
 
 //use app view to access templates , I am using ejs to render templates
-app.set("view engine", "ejs");
-app.set("users", "./views"); 
+app.set("view engine", "ejs"); 
+app.set("users", "./views");     
 app.set("home", "./views"); 
 app.set("posts", "./views");
 

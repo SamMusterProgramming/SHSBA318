@@ -10,51 +10,69 @@
    
 </head>
 <body>
+     
+    
     
     <div style=" display:flex; width:100%;height:100%; gap:40px; justify-content: start; ">
+        <div style="margin-left: 20px; display: flex;flex-direction: column;justify-content: 
+        start;align-items: center;  ">
+              
+              <div style="display: flex; flex-direction:column; justify-content: start; gap:0px; align-items: center;
+              width: 600px; height: 300px;border-radius:15px;background-color: rgb(193, 208, 219);">
+                <h2>  <span style="color: blue;">   Profile   </span></h2>
+                  <% if (posts) { %>
+                    <% posts.forEach(function(post) { %>
+                        <% if (post.status == "top") { %>
+                            <img style="width: 95%;height: 95%;object-fit: fill;"  src= "<%= post.image_url %>" alt="">
+                      <% } %>    
+                        <% }); %>
+                        <% } %>
+              </div>
+         </div>
         <div style="margin-left: 20px; display: flex;flex-direction: column;justify-content:
            start;align-items: center; ">
-            <h2> welcome    <span style="color: blue;">    <%= user.name  %>  </span></h2>
-            <% if (user.admin) { %>
-            <p> admin page</p>
-            <% } %>
+            <h2> welcome    <span style="color: blue;">    <%= user.name  %>  </span> 
+            <span>
+                <% if (user.admin) { %>
+                    admin page
+                    <% } %>
+            </span></h2>
+           
             <div style="display: flex;justify-content: center; align-items: center;
             width: 300px; height: 300px;border-radius:15px;background-color: rgb(25, 123, 193);">
             <img style="width: 95%;height: 95%;object-fit: cover;border-radius: 50%;"  src= "<%= user.profile_img  %>" alt="">
+            <a href="/api/users/Logout" style=" margin-top:270px ; margin-left: 220px; position:absolute; cursor: pointer; 
+                   font-size: 16px;"> Logout
+            </a>
             </div>
         </div>
    
-        <div style="margin-left: 20px; display: flex;flex-direction: column;justify-content: 
-        start;align-items: center;  ">
-               <h2>  <span style="color: blue;">   Profile   </span></h2>
-              <div style="display: flex; flex-direction:column; justify-content: start; gap:0px; align-items: center;
-              width: 300px; height: 300px;border-radius:15px;background-color: rgb(193, 208, 219);">
-                 <form action="/api/users/<%= user.id %>" method="put">
-                   
-                    <div>
-                        <label >Name :</label> <input type="text" name="name" value= "<%= user.name %>" />
-                    </div> 
-                    <div>
-                       <label >Username :</label> <input type="text" value="<%= user.username  %>" />
-                    </div> 
-                    <div>
-                       <label >Name :</label> <input type="text" value="<%= user.email  %>" />
-                    </div>
-                     <button type="submit"> UPDATE </button>
-                 </form> 
-              </div>
-         </div>
+        
+        <div style="margin-left: 200px; display: flex;flex-direction: column;justify-content:
+           start;align-items: center; ">
+           <h3>Create New Post</h3>
+           <div style="display: flex;justify-content: center; align-items: center;border: 2px solid black;border-radius: 10px;
+           width: 600px; height: 300px;border-radius:15px;background-color: rgb(25, 123, 193);">
+           <img style="width: 95%;height: 95%;object-fit: cover;"  src= "/static/asset/dummy.jpeg" alt="">
+
+           <button id="upload" style="position: absolute; margin-top: 235px; margin-left: 350px;cursor: pointer;
+           color: white;font-size: 18px; height: 50px;width: 220px; background-color: rgb(17, 92, 212);">upload Image</button>
+
+           <textarea placeholder="add description here" 
+           style="position: absolute; width: 200px; height: 60px; padding: 15px;border-radius: 10px;" ></textarea>
+           </div>
+        </div> 
          
    </div>
 
 
    <div style="margin-top: 20px; display:flex; width:100%; gap:20px;align-items:center; justify-content: center; background-color: rgb(19, 154, 207);height: 40px; ">
         <% if (user.admin) { %>
-                <a href="http://localhost:8080/api/users/ "> access all users here</a>
-                <a href="http://localhost:8080/api/posts/ "> access all posts here</a>
+                <a href="/api/users/ "> access all users here</a>
+                <a href="/api/posts/ "> access all posts here</a>
         <% } 
         else { %>
-            <a  href="http://localhost:8080/api/posts/ <%= user.id %> ">Access your posts here</a>
+            <a  href="/api/posts/ <%= user.id %> ">Access your posts here</a>
         <% } %>
     </div>
     <div style="margin-top: 30px; display:flex; flex-wrap: wrap; width:100%;height:100%; gap:20px; justify-content: center; ">
@@ -65,8 +83,8 @@
                center; gap:10px;margin-left: 30px; width: 100%; height: 20%;">
                  <img id="profileImg" src="<%= user.profile_img %>" alt="">  
                  <div style="display: flex; flex-direction: column;justify-content:start;  align-items: center;">
-                    <h5 style="margin-top: -10px;" ><%= user.name %></h5>  
-                    <a style="margin-top: -20px;" href="http://localhost:8080/api/users/<%= post.user_id %>"><%= user.email %></a> 
+                    <h5 style="margin-top: -10px;color: aliceblue;" ><%= user.name %></h5>  
+                    <a style="margin-top: -20px; color: rgb(16, 17, 17);" href="/api/users/<%= post.user_id %>"><%= post.description %></a> 
                  </div>  
               </div>
               <div style="display: flex;align-items: center;justify-content: center;width: 100%; height: 70%;">
@@ -89,7 +107,7 @@
                      <img id="profileImg" src="<%= user.profile_img %>" alt="">  
                      <div style="display: flex; flex-direction: column;justify-content:start;  align-items: center;">
                         <h5 style="margin-top: -10px;"><%= user.name %></h5>  
-                        <a style="margin-top: -20px;" href="http://localhost:8080/api/users/<%= user.id %>"><%= user.email %></a> 
+                        <a style="margin-top: -20px;" href="/api/users/<%= user.id %>"><%= user.email %></a> 
                      </div>
                     
                   </div>
@@ -179,6 +197,15 @@
     }   
     </style>
 
+    <script>
+    
+        const upload = document.getElementById('upload');
+    
+        upload.addEventListener('click', (e) => {
+            e.preventDefault();
+        upload.style.backgroundColor = "red"
+        });
+    </script>
 
 </body>
 </html>
