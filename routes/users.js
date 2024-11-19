@@ -40,7 +40,7 @@ router.route('/login')
                 return res.render("users",{user:session,posts:null,users:null})
             }
             return res.redirect('/api') 
-      })
+      })   
       .post((req,res)=> {      
             // log the existent user here        
             if(!session){    
