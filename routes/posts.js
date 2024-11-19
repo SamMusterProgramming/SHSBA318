@@ -3,33 +3,41 @@ const router = express.Router();
 const posts = require('../data/postData.js')
 const users = require('../data/usersData.js')
 const multer = require('multer');
-const upload = multer({ dest: 'public/' });
-const path = require("path");
+const path = require('path');
 const fs = require('fs')
+
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, 'public/');
+    },
+    filename: (req, file, cb) => {
+      cb(null, Date.now() + '-' + file.originalname);
+    }
+  });
+  
+  const upload = multer({ storage: storage });
+
 
 router.route('/')
     .get((req,res)=> {
-            console.log(posts)
             // get all posts posted by users 
             // logic here to merge each post with user's name , image_profile to display them along the post
             const usersPosts = []
             posts.forEach( post => {
             usersPosts.push({...post,...getUserById(post.user_id, users)})
-            })  
-            console.log(usersPosts)
+            })    
+            console.log(usersPosts)  
             return res.render('posts',{posts:usersPosts})})
     .post(upload.single('image'),(req,res)=> {
-           const tempPath = req.file.path;
-           const targetPath = path.join(__dirname, "./uploads/image.png");
-           fs.rename(tempPath, targetPath, err => {
-            if (err) return handleError(err, res);
-    
-            res  
-              .status(200)
-              .contentType("text/plain")
-              .end("File uploaded!");
-          }) 
-
+        if (!req.file) {
+            console.log("iam here")
+            res.status(400).send('No file uploaded.');
+            return;
+            }
+            
+            // You can perform additional operations with the uploaded image here.
+            res.status(200).send('Image uploaded and saved successfully.');
 })   
      
 router.route('/:id')
