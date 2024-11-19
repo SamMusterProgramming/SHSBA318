@@ -28,7 +28,7 @@ router.route('/')
         // create session here and redirect to log in new user 
         session = newUser;
         users.push(newUser);  
-        user_id ++;    
+        user_id ++;        
         res.redirect('/api/users/login')
       })
        

@@ -1,18 +1,19 @@
 const express = require('express'); 
 const router = express.Router();
-const posts = require('../data/postData.js')
+let posts = require('../data/postData.js')
 const users = require('../data/usersData.js')
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs')
 
-
+let postId = 5 ; 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, 'public/');
+      cb(null, 'public/uploads');
     },
     filename: (req, file, cb) => {
-      cb(null, Date.now() + '-' + file.originalname);
+    //   cb(null, Date.now() + '-' + file.originalname);
+    cb(null,file.originalname);
     }
   });
   
@@ -31,14 +32,24 @@ router.route('/')
             return res.render('posts',{posts:usersPosts})})
     .post(upload.single('image'),(req,res)=> {
         if (!req.file) {
-            console.log("iam here")
             res.status(400).send('No file uploaded.');
             return;
             }
-            
-            // You can perform additional operations with the uploaded image here.
-            res.status(200).send('Image uploaded and saved successfully.');
-})   
+        let newPost =  {
+            id: postId ,
+            user_id: parseInt(req.body.user_id),
+            image_url: "/static/uploads/" + req.file.originalname,
+            description : req.body.description,
+            date : new Date(),
+            likes_count : 0,
+            status : "no", 
+            comments_id: 100   
+        }  
+        console.log(newPost) 
+        posts.push(newPost)
+        postId++; 
+        res.redirect(`/api/posts/${parseInt(req.body.user_id)}`)
+    })      
      
 router.route('/:id')
     .get((req,res) => {
@@ -46,7 +57,6 @@ router.route('/:id')
         const user_id = req.params.id;
         const userPosts =  posts.filter(post => post.user_id == user_id)
         const user = users.find(user => user.id == user_id) // we need the user to pass it to the users template
-        console.log(user)
         res.render('users',{ user:user,posts:userPosts,users:null})
     })  
 

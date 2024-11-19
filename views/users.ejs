@@ -65,17 +65,22 @@
            width: 600px; height: 300px;border-radius:15px;background-color: rgb(25, 123, 193);">
               <img id="image" style="width: 95%;height: 95%;object-fit: cover;"  src= "/static/asset/dummy.jpeg" alt="">
               
-              <form action="/api/posts/" method="post" enctype="multipart/form-data" style="position: absolute; margin-top: 235px; margin-left: 350px;cursor: pointer; 
-                  height: 40px;width: 120px; background-color:rgb(17, 92, 212);text-align: center;">
-                    <label for="file-upload" id="upload">
-                        UPLOAD
-                    </label>
-                    <input id="file-upload" name="image" type="file" accept="image/*" />
-                    <button type="submit" id="submit">SUBMIT</button>
+              <form id="form" action="/api/posts/" method="post" enctype="multipart/form-data" style="position: absolute; margin-top: 0px; 
+                 margin-left: 0px;cursor: pointer; ">
+                     <textarea id="description" name="description" placeholder="add your description here" 
+                     style=" width: 240px; height: 30px; padding: 15px;border-radius: 10px;" ></textarea>
+                     <div style=" height: 40px;width: 120px; background-color:rgb(17, 92, 212);text-align: center; margin-top: 20px;">
+                        <label for="file-upload" id="upload">
+                            UPLOAD
+                        </label>
+                     </div>
+                     <input id="file-upload" name="image" type="file" accept="image/*" />
+                    <input type="number" name="user_id" value="<%= user.id %>"  style="display: none;"  />
+                    <button style="margin-top: 20px; height: 40px;width: 100px; background-color: greenyellow; font-weight: 500; 
+                    border-radius: 10px; cursor: pointer; font-size: 18px;" type="submit" id="submit"> SUBMIT </button>
               </form>
 
-                <textarea id="description" placeholder="add your description here" 
-                style="position: absolute; width: 200px; height: 60px; padding: 15px;border-radius: 10px;" ></textarea>
+               
 
            </div>      
         </div>
@@ -231,9 +236,9 @@
             img.onload = () => {
               URL.revokeObjectURL(img.src); 
             }
-
             img.src = URL.createObjectURL(file_upload.files[0]); 
-         })
+            // document.getElementById('form').submit();
+            })
         
          
 
