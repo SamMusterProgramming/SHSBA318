@@ -7,7 +7,7 @@ const posts = [ {
     description : "the fantasy that Nature exseburate on us",
     date : new Date('now'),
     likes_count:1256,
-    status : "top",
+    status : "no",
     comments_id: 100 
 },{  
     id : 2,
@@ -15,8 +15,8 @@ const posts = [ {
     image_url : '/static/asset/46.jpg',
     description : "love the nature, you have nothing to loose at all",
     date : new Date(),
-    likes_count:568,
-    status : "no",
+    likes_count:51568,
+    status : "top",
     comments_id: 100 
 },{
     id : 3,
@@ -29,12 +29,12 @@ const posts = [ {
     comments_id: 100 
 },{
     id : 4,
-    user_id :1,
+    user_id :0,
     image_url : '/static/asset/51.jpg',
     description : "beyong our universe there is a universe",
     date : new Date(),
     likes_count : 3568,
-    status : "no",
+    status : "top",
     comments_id: 100 
 }
 ]

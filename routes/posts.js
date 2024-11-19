@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const posts = require('../data/postData.js')
 const users = require('../data/usersData.js')
+const multer = require('multer');
+const upload = multer({ dest: 'public/' });
+const path = require("path");
+const fs = require('fs')
 
 router.route('/')
     .get((req,res)=> {
@@ -11,11 +15,21 @@ router.route('/')
             const usersPosts = []
             posts.forEach( post => {
             usersPosts.push({...post,...getUserById(post.user_id, users)})
-            })
+            })  
             console.log(usersPosts)
             return res.render('posts',{posts:usersPosts})})
-    .post((req,res)=> {
-    // add a post here    
+    .post(upload.single('image'),(req,res)=> {
+           const tempPath = req.file.path;
+           const targetPath = path.join(__dirname, "./uploads/image.png");
+           fs.rename(tempPath, targetPath, err => {
+            if (err) return handleError(err, res);
+    
+            res  
+              .status(200)
+              .contentType("text/plain")
+              .end("File uploaded!");
+          }) 
+
 })   
      
 router.route('/:id')

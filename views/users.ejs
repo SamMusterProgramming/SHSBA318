@@ -13,22 +13,32 @@
      
     
     
-    <div style=" display:flex; width:100%;height:100%; gap:40px; justify-content: start; ">
+    <div style=" display:flex; width:100%;height:100%;  justify-content: center; ">
+
+
         <div style="margin-left: 20px; display: flex;flex-direction: column;justify-content: 
         start;align-items: center;  ">
+                 <h2>  <span style="color: blue;">  Top Post  </span></h2>
+              <div style="display: flex; flex-direction:column; justify-content: CENTER; align-items: center;
+              width: 600px; height: 300px;border-radius:15px;background-color: rgb(25, 123, 193)">
               
-              <div style="display: flex; flex-direction:column; justify-content: start; gap:0px; align-items: center;
-              width: 600px; height: 300px;border-radius:15px;background-color: rgb(193, 208, 219);">
-                <h2>  <span style="color: blue;">   Profile   </span></h2>
                   <% if (posts) { %>
                     <% posts.forEach(function(post) { %>
                         <% if (post.status == "top") { %>
-                            <img style="width: 95%;height: 95%;object-fit: fill;"  src= "<%= post.image_url %>" alt="">
-                      <% } %>    
-                        <% }); %>
-                        <% } %>
-              </div>
+                            <img style="width: 95%;height: 95%;object-fit: fill; border-radius: 10px;"  src= "<%= post.image_url %>" alt="">
+                <div style="position: absolute;">
+                    <button style="background-color: transparent;margin-right:450px;margin-bottom: 150px;  border: none;cursor: pointer;font-size: 25px; color: aliceblue;" > 
+                        <i  class="fa fa-thumbs-up"> <%= post.likes_count %></i>
+                    </button>
+                    <h3 style="color: white;"><%= post.description %></h3>
+                 </div>      
+                 <% } %>    
+                 <% }); %>
+                 <% } %> 
+
+            </div>
          </div>
+
         <div style="margin-left: 20px; display: flex;flex-direction: column;justify-content:
            start;align-items: center; ">
             <h2> welcome    <span style="color: blue;">    <%= user.name  %>  </span> 
@@ -48,23 +58,28 @@
         </div>
    
         
-        <div style="margin-left: 200px; display: flex;flex-direction: column;justify-content:
+        <div style="margin-left: 20px; display: flex;flex-direction: column;justify-content:
            start;align-items: center; ">
-           <h3>Create New Post</h3>
+           <h2>Create New Post</h2>
            <div style="display: flex;justify-content: center; align-items: center;border: 2px solid black;border-radius: 10px;
            width: 600px; height: 300px;border-radius:15px;background-color: rgb(25, 123, 193);">
-           <img style="width: 95%;height: 95%;object-fit: cover;"  src= "/static/asset/dummy.jpeg" alt="">
+              <img id="image" style="width: 95%;height: 95%;object-fit: cover;"  src= "/static/asset/dummy.jpeg" alt="">
+              
+              <form action="/api/posts/" method="post" enctype="multipart/form-data" style="position: absolute; margin-top: 235px; margin-left: 350px;cursor: pointer; 
+                  height: 40px;width: 120px; background-color:rgb(17, 92, 212);text-align: center;">
+                    <label for="file-upload" id="upload">
+                        UPLOAD
+                    </label>
+                    <input id="file-upload" name="image" type="file" accept="image/*" />
+                    <button type="submit" id="submit">SUBMIT</button>
+              </form>
 
-           <button id="upload" style="position: absolute; margin-top: 235px; margin-left: 350px;cursor: pointer;
-           color: white;font-size: 18px; height: 50px;width: 220px; background-color: rgb(17, 92, 212);">upload Image</button>
+                <textarea id="description" placeholder="add your description here" 
+                style="position: absolute; width: 200px; height: 60px; padding: 15px;border-radius: 10px;" ></textarea>
 
-           <textarea placeholder="add description here" 
-           style="position: absolute; width: 200px; height: 60px; padding: 15px;border-radius: 10px;" ></textarea>
-           </div>
-        </div> 
-         
-   </div>
-
+           </div>      
+        </div>
+    </div>
 
    <div style="margin-top: 20px; display:flex; width:100%; gap:20px;align-items:center; justify-content: center; background-color: rgb(19, 154, 207);height: 40px; ">
         <% if (user.admin) { %>
@@ -162,6 +177,17 @@
      object-fit: cover;
      border-radius: 10px;   
     }
+    input[type="file"] {
+     display: none;
+    }
+
+     #upload{
+        color: white;
+        font-size: 18px;
+        display: inline-block;
+        padding: 6px 12px;
+        cursor: pointer;
+}
     @media screen and (max-width: 1450px) {
         .usersDisplayer {
            
@@ -196,15 +222,31 @@
       } 
     }   
     </style>
-
+       
     <script>
-    
-        const upload = document.getElementById('upload');
-    
-        upload.addEventListener('click', (e) => {
-            e.preventDefault();
-        upload.style.backgroundColor = "red"
-        });
+       
+         let file_upload = document.getElementById('file-upload');
+         let img = document.getElementById('image');
+         file_upload.addEventListener(('change'),(e)=>{
+            img.onload = () => {
+              URL.revokeObjectURL(img.src); 
+            }
+
+            img.src = URL.createObjectURL(file_upload.files[0]); 
+         })
+        
+         let formData = new FormData();
+         formData.append("photo", img);
+
+         document.getElementById('submit').addEventListener(('click'),(e)=>{
+         e.preventDefault();
+         fetch('/api/posts/', {
+            method: "POST",
+            body: JSON.stringify({ username: "example" }),
+            })
+
+        })
+         
     </script>
 
 </body>

@@ -17,7 +17,7 @@ router.route('/')
          // validate registration here and add user
          const newUser = {     
             id:user_id,
-            name:req.body.name,  
+            name:req.body.name,     
             username:req.body.username,
             email:req.body.email,
             password:req.body.password
@@ -27,8 +27,8 @@ router.route('/')
         return res.render('home.ejs',{action:"register",placeHolders:req.body})
         // create session here and redirect to log in new user 
         session = newUser;
-        users.push(newUser);
-        user_id ++;   
+        users.push(newUser);  
+        user_id ++;    
         res.redirect('/api/users/login')
       })
        
@@ -55,10 +55,10 @@ router.route('/login')
 }) 
 
 // log out here
-router.get('/logout', (req,res)=> {
-    session = null;
-    res.redirect('/api')
-})
+router.get('/logout', (req,res)=> {       
+    session = null;      
+    res.redirect('/api')   
+})    
 
 // access specific user by parameter / query  
 router.route('/:id')  
@@ -72,7 +72,7 @@ router.route('/:id')
             })       
             .delete((req,res)=> {
                 console.log("i am here")
-            })
+            }) 
      
 function checkUserExist(req,res,next) {
        
