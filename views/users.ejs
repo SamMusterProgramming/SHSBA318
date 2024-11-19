@@ -87,13 +87,15 @@
     </div>
 
    <div style="margin-top: 20px; display:flex; width:100%; gap:20px;align-items:center; justify-content: center; background-color: rgb(19, 154, 207);height: 40px; ">
-        <% if (user.admin) { %>
-                <a href="/api/users/ "> access all users here</a>
-                <a href="/api/posts/ "> access all posts here</a>
-        <% } 
-        else { %>
-            <a  href="/api/posts/ <%= user.id %> ">Access your posts here</a>
-        <% } %>
+     <% if (user.id == 0) { %>
+        <a href="/api/users/ "> access all users here</a>
+        <a href="/api/posts/ "> access all posts here</a>
+        <a  href="/api/posts/ <%= user.id %> ">Access your posts here</a>
+     <% } 
+     else { %>
+     <a  href="/api/posts/ <%= user.id %> ">Access your posts here</a>
+     <% } %>
+        
     </div>
 
     <div id="displayer" style="margin-top: 30px; display:flex; flex-wrap: wrap; width:100%;height:100%; gap:20px; justify-content: center; ">
@@ -170,33 +172,33 @@
           justify-content:center; 
           background-color: rgb(105, 151, 231);
       }
-  a {
+      a {
       font-size: 15px;
       color: white;
-  }
-  #profileImg{
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    object-fit: fill;
-  }
-    #post  {
-     width: 90%;
-     height: 100%;
-     object-fit: cover;
-     border-radius: 10px;   
-    }
-    input[type="file"] {
-     display: none;
-    }
+      }
+      #profileImg{
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: fill;
+      }
+      #post  {
+        width: 90%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px;   
+       }
+        input[type="file"] {
+        display: none;
+       }
 
-     #upload{
-        color: white;
-        font-size: 18px;
-        display: inline-block;
-        padding: 6px 12px;
-        cursor: pointer;
-}
+       #upload{
+            color: white;
+            font-size: 18px;
+            display: inline-block;
+            padding: 6px 12px;
+            cursor: pointer;
+      }
     @media screen and (max-width: 1450px) {
         .usersDisplayer {
            

@@ -46,7 +46,7 @@ router.route('/login')
             if(!session){    
             const user = users.find(user => user.email == req.body.email && user.password == req.body.password)
             if(user){
-            user.id == 0 ? session ={...user,...{["admin"]:"yes"} } : session = user ;   
+            user.id == 0 ? session = {...user,...{["admin"]:"yes"} } : session = user ;   
             return res.render("users",{user:session,posts:null,users:null})
             }
             else return res.redirect('/api')
@@ -57,11 +57,11 @@ router.route('/login')
 // log out here   
 router.get('/logout', (req,res)=> {       
     session = null;      
-    res.redirect('/api')   
+    res.redirect('/api')     
 })     
 
 // access specific user by parameter / query  
-router.route('/:id')  
+router.route('/:id')       
             .get((req,res)=> {       
                 const user_id = req.params.id; 
                 const user = users.find(user => user.id == user_id)
