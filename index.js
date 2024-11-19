@@ -2,7 +2,7 @@ const express = require ('express')
 const usersRoute = require('./routes/users')
 const postsRoute = require('./routes/posts')
 const bodyParser = require('body-parser')
-
+ 
 
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
 const PORT = process.env.PORT || 8000 ; 

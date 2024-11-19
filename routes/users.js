@@ -40,8 +40,8 @@ router.route('/login')
                 return res.render("users",{user:session,posts:null,users:null})
             }
             return res.redirect('/api') 
-      })   
-      .post((req,res)=> {      
+      })           
+      .post((req,res)=> {   
             // log the existent user here        
             if(!session){    
             const user = users.find(user => user.email == req.body.email && user.password == req.body.password)
@@ -51,18 +51,18 @@ router.route('/login')
             }
             else return res.redirect('/api')
             } 
-            return res.render("users",{user:session,posts:null,users:null})
-}) 
+            return res.redirect("/login")
+})      
 
-// log out here
+// log out here   
 router.get('/logout', (req,res)=> {       
     session = null;      
     res.redirect('/api')   
-})    
+})     
 
 // access specific user by parameter / query  
 router.route('/:id')  
-            .get((req,res)=> {
+            .get((req,res)=> {       
                 const user_id = req.params.id; 
                 const user = users.find(user => user.id == user_id)
                 res.render('users', { user:user, posts:null,users:null}) 
@@ -71,8 +71,8 @@ router.route('/:id')
                    console.log("i am here")   
             })       
             .delete((req,res)=> {
-                console.log("i am here")
-            }) 
+                console.log("i am here")  
+            })     
      
 function checkUserExist(req,res,next) {
        

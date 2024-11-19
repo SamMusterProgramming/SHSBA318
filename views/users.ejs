@@ -13,7 +13,7 @@
      
     
     
-    <div style=" display:flex; width:100%;height:100%;  justify-content: center; ">
+    <div style="display:flex; width:100%;height:100%;  justify-content: center; ">
 
 
         <div style="margin-left: 20px; display: flex;flex-direction: column;justify-content: 
@@ -95,16 +95,43 @@
             <a  href="/api/posts/ <%= user.id %> ">Access your posts here</a>
         <% } %>
     </div>
-    <div style="margin-top: 30px; display:flex; flex-wrap: wrap; width:100%;height:100%; gap:20px; justify-content: center; ">
+
+    <div id="displayer" style="margin-top: 30px; display:flex; flex-wrap: wrap; width:100%;height:100%; gap:20px; justify-content: center; ">
+    <% if (users) { %>
+        <% users.forEach(function(user) { %>
+         <div class="usersDisplayer">
+              <div style="display: flex; justify-content: start;align-items:
+                 center; gap:10px;margin-left: 30px; width: 100%; height: 20%;">
+                 <img id="profileImg" src="<%= user.profile_img %>" alt="">  
+                 <div style="display: flex; flex-direction: column;justify-content:start;  align-items: center;">
+                    <h5 style="margin-top: -10px;"><%= user.name %></h5>  
+                    <a style="margin-top: -20px;" href="/api/users/<%= user.id %>"><%= user.email %></a> 
+                 </div>
+                
+              </div>
+              <div style="display: flex;align-items: center;justify-content: center;width: 100%; height: 70%;">
+                 <img id="post" src="<%= user.profile_img %>" alt="">
+              </div>
+              <div style="display: flex;justify-content: space-evenly; align-items: center;
+                 width: 100%;height: 10%;">
+                  <button onClick ="(e)=>handleDelete" style="background-color: transparent; border: none;cursor: pointer;"
+                   >  Delete </button>
+                  <button > Update</button>
+             
+              </div>
+          </div>
+         <% }); %>
+        <% } %>
+
         <% if (posts) { %>
         <% posts.forEach(function(post) { %>
          <div class="usersDisplayer">
               <div style="display: flex; justify-content: start;align-items:
                center; gap:10px;margin-left: 30px; width: 100%; height: 20%;">
                  <img id="profileImg" src="<%= user.profile_img %>" alt="">  
-                 <div style="display: flex; flex-direction: column;justify-content:start;  align-items: center;">
-                    <h5 style="margin-top: -10px;color: aliceblue;" ><%= user.name %></h5>  
-                    <a style="margin-top: -20px; color: rgb(16, 17, 17);" href="/api/users/<%= post.user_id %>"><%= post.description %></a> 
+                 <div style="display: flex; flex-direction: column;justify-content:start; text-align: center;  align-items: center;">
+                    <h5 style="margin-top: -10px;color: rgb(11, 11, 11);" ><%= user.name %></h5>  
+                    <p style="margin-top: -20px; color: white;font-size: 13px;" ><%= post.description %></p> 
                  </div>  
               </div>
               <div style="display: flex;align-items: center;justify-content: center;width: 100%; height: 70%;">
@@ -116,66 +143,43 @@
                   <button ><i class="fa fa-chat-dots"></i> Comments</button>
                   <button ><i class="fa fa-share"></i> Share</button>
               </div>
-          </div>
-         <% }); %>
-        <% } %>
-        <% if (users) { %>
-            <% users.forEach(function(user) { %>
-             <div class="usersDisplayer">
-                  <div style="display: flex; justify-content: start;align-items:
-                     center; gap:10px;margin-left: 30px; width: 100%; height: 20%;">
-                     <img id="profileImg" src="<%= user.profile_img %>" alt="">  
-                     <div style="display: flex; flex-direction: column;justify-content:start;  align-items: center;">
-                        <h5 style="margin-top: -10px;"><%= user.name %></h5>  
-                        <a style="margin-top: -20px;" href="/api/users/<%= user.id %>"><%= user.email %></a> 
-                     </div>
-                    
-                  </div>
-                  <div style="display: flex;align-items: center;justify-content: center;width: 100%; height: 70%;">
-                     <img id="post" src="<%= user.profile_img %>" alt="">
-                  </div>
-                  <div style="display: flex;justify-content: space-evenly; align-items: center;
-                     width: 100%;height: 10%;">
-                      <button onClick ="(e)=>handleDelete" style="background-color: transparent; border: none;cursor: pointer;"
-                       >  Delete </button>
-                      <button > Update</button>
-                 
-                  </div>
-              </div>
-             <% }); %>
-            <% } %>
+              <input id="user_id" type="number" style="display: none;" name="user_id" value="<%= user.id %>">
+              <input id="post_id" type="text" style="display: none;" name="post_id" value="<%= post.id %>">
+              <button id="delete" style="position: absolute;margin-bottom: 425px;margin-left: 290px; font-size: 15px; background-color: red; color: white;
+              border-radius: 50px; cursor: pointer;">X</button>
+            </div>
+           <% }); %>
+          <% } %>      
+      </div>  
+         
+     
 
-            
-   </div>  
-           
-       
-
-    <style>
-        input {
-            background-color: transparent;
-            color: rgb(13, 117, 208);
-            border: none;
-            padding:15px;
-            text-decoration: none;
-        }
-        .usersDisplayer {
-            display:flex;
-            flex-direction:column;
-            width: 18%; 
-            height: 350px;align-items:center;
-            justify-content:center; 
-            background-color: rgb(105, 151, 231);
-        }
-    a {
-        font-size: 15px;
-        color: white;
-    }
-    #profileImg{
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      object-fit: fill;
-    }
+  <style>
+      input {
+          background-color: transparent;
+          color: rgb(13, 117, 208);
+          border: none;
+          padding:15px;
+          text-decoration: none;
+      }
+      .usersDisplayer {
+          display:flex;
+          flex-direction:column;
+          width: 18%; 
+          height: 450px;align-items:center;
+          justify-content:center; 
+          background-color: rgb(105, 151, 231);
+      }
+  a {
+      font-size: 15px;
+      color: white;
+  }
+  #profileImg{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: fill;
+  }
     #post  {
      width: 90%;
      height: 100%;
@@ -237,11 +241,22 @@
               URL.revokeObjectURL(img.src); 
             }
             img.src = URL.createObjectURL(file_upload.files[0]); 
-            // document.getElementById('form').submit();
+          
             })
-        
-         
-
+           
+        let post_id = document.getElementById('post_id')
+        let user_id = document.getElementById('user_id')
+        const deleteButton = document.getElementById('delete')
+        deleteButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            fetch(`/api/posts/`+ parseInt(post_id.value) , {
+           method: 'DELETE',
+        }).then((response) => {
+           document.getElementById('displayer').innerHTML =
+            "  Sucessfully delete go back to your posts"
+        })
+        })
+   
         
          
     </script>

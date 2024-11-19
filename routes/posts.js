@@ -7,9 +7,10 @@ const path = require('path');
 const fs = require('fs')
 
 let postId = 5 ; 
+let user_id = -1 ; 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, 'public/uploads');
+      cb(null, `public/uploads/`);
     },
     filename: (req, file, cb) => {
     //   cb(null, Date.now() + '-' + file.originalname);
@@ -27,8 +28,7 @@ router.route('/')
             const usersPosts = []
             posts.forEach( post => {
             usersPosts.push({...post,...getUserById(post.user_id, users)})
-            })    
-            console.log(usersPosts)  
+            })     
             return res.render('posts',{posts:usersPosts})})
     .post(upload.single('image'),(req,res)=> {
         if (!req.file) {
@@ -51,18 +51,25 @@ router.route('/')
         res.redirect(`/api/posts/${parseInt(req.body.user_id)}`)
     })      
      
-router.route('/:id')
+router.route('/:id') 
     .get((req,res) => {
         // here I will filter the posts by user_id , return all posts with user_id
-        const user_id = req.params.id;
-        const userPosts =  posts.filter(post => post.user_id == user_id)
+        user_id = req.params.id;   
+        posts =  posts.filter(post => post.user_id == user_id)
         const user = users.find(user => user.id == user_id) // we need the user to pass it to the users template
-        res.render('users',{ user:user,posts:userPosts,users:null})
+        res.render('users',{ user:user,posts:posts,users:null})
+    })
+    .delete((req,res)=> {
+        const post_id = parseInt(req.params.id)
+        posts = posts.filter(post => post.id !== post_id)
+        const user = users.find(user => user.id == user_id)
+        res.render('users',{user:user,posts:posts,users:null})
     })  
-
+     
 
 function getUserById(id , userslist) {
   return userslist.find(user => user.id == id)
+
 }
 
 module.exports = router
