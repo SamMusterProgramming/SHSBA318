@@ -49,13 +49,18 @@
                     <% } %>
             </span></h2>
            
-            <div style="display: flex;justify-content: center; align-items: center;
-            width: 300px; height: 300px;border-radius:15px;background-color: rgb(25, 123, 193);">
-            <img style="width: 95%;height: 95%;object-fit: cover;border-radius: 50%;"  src= "<%= user.profile_img  %>" alt="">
-            <a href="/api/users/Logout" style=" margin-top:270px ; margin-left: 220px; position:absolute; cursor: pointer; 
-                   font-size: 16px;"> Logout
-            </a>
-            </div>
+            <form id="profile_form" action="/api/posts/" method="post" enctype="multipart/form-data"
+             style="display: flex;justify-content: center; align-items: center;
+             width: 300px; height: 300px;border-radius:15px;background-color: rgb(25, 123, 193);">
+                <img id="profile_img" style="width: 95%;height: 95%;object-fit: cover;border-radius: 50%;"  src= "<%= user.profile_img  %>" alt="">
+                <a href="/api/users/Logout" style=" margin-top:270px ; margin-left: 220px; position:absolute; cursor: pointer; 
+                    font-size: 16px;"> Logout
+                </a>
+                <label id="upload" style="position: absolute;color: white;margin-bottom: 280px; margin-left: 220px;
+                cursor: pointer;" for="pImage"> Change </label>
+                <input id="pImage" name="profile_image" type="file" accept="image/*">
+                <input type="number" name="user_id" value = "<%= user.id %>"  style="display: none;"  />
+            </form>
         </div>
    
         
@@ -246,21 +251,20 @@
               URL.revokeObjectURL(img.src); 
             }
             img.src = URL.createObjectURL(file_upload.files[0]); 
-          
             })
+        let profile_img = document.getElementById('profile_img')
+        let pImage = document.getElementById('pImage')
+        pImage.addEventListener('change',(e)=>{
+            profile_img.onload = () => {
+              URL.revokeObjectURL(profile_img.src); 
+            }
+            profile_img.src = URL.createObjectURL(pImage.files[0]); 
+        })
+
         let displayer = document.getElementById('displayer');   
         let post_id = document.getElementById('post_id')
         let user_id = document.getElementById('user_id')
         const deleteButton = document.getElementById('delete')
-        // deleteButton.addEventListener('click', (e) => {
-        //     e.preventDefault();
-        //     fetch(`/api/posts/`+ parseInt(post_id.value) , {
-        //    method: 'DELETE',
-        // }).then((response) => {
-        //    displayer.innerHTML =
-        //    "Sucessfully delete go back to your posts"
-        // })
-        // })
         let postForm = displayer.querySelectorAll('form')
         Array.from(postForm, form => {
             form.addEventListener('click',(e)=>{

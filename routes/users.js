@@ -2,10 +2,22 @@ const express = require('express')
 const router = express.Router();
 const bodyParser = require('body-parser')
 const users = require('../data/usersData.js') 
+const multer = require('multer')
 
-
-let session = null;
+let session = null;  
 let user_id = 5;
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, `public/uploads/`);
+    },
+    filename: (req, file, cb) => {
+    //   cb(null, Date.now() + '-' + file.originalname);
+    cb(null,file.originalname);
+    }
+  });
+  
+const upload = multer({ storage: storage });
 
 // route for users ,   
 router.route('/')   
@@ -19,7 +31,7 @@ router.route('/')
          if(req.body.username && req.body.email&& req.body.password){
          const newUser = {     
             id:user_id,
-            name:req.body.name,      
+            name:req.body.name,         
             username:req.body.username,
             profile_img : "/static/asset/avatar.avif",
             email:req.body.email,
