@@ -7,18 +7,21 @@ const users = require('../data/usersData.js')
 let session = null;
 let user_id = 5;
 
-// route for users , 
-router.route('/')
+// route for users ,   
+router.route('/')   
       //get all users when logged in as an admin only
-      .get((req,res)=> {
-       res.render('users',{user:session,users:users,posts:null})
+      .get((req,res )=> {
+        noAdminUsers = users.filter(user => user.id !== 0)  // exclude the admin from users list
+        return   res.render('users',{user:session,users:noAdminUsers,posts:null,topPost:null} )
       })
-      .post((req,res)=> {      
+      .post((req,res,next)=> {      
          // validate registration here and add user
+         if(req.body.username && req.body.email&& req.body.password){
          const newUser = {     
             id:user_id,
-            name:req.body.name,     
+            name:req.body.name,      
             username:req.body.username,
+            profile_img : "/static/asset/avatar.avif",
             email:req.body.email,
             password:req.body.password
         }
@@ -28,52 +31,67 @@ router.route('/')
         // create session here and redirect to log in new user 
         session = newUser;
         users.push(newUser);  
-        user_id ++;        
-        res.redirect('/api/users/login')
-      })
+        user_id ++;           
+        return res.redirect('/api/users/login')
+       }
+       next();
+      }
+    )
        
 //user athentification here 
 router.route('/login')
       .get((req,res)=> {
             // log new user session here
             if(session){
-                return res.render("users",{user:session,posts:null,users:null})
+                return res.render("users",{user:session,posts:null,users:null,topPost:null})
             }
             return res.redirect('/api') 
-      })           
+      })                 
       .post((req,res)=> {   
             // log the existent user here        
             if(!session){    
             const user = users.find(user => user.email == req.body.email && user.password == req.body.password)
             if(user){
             user.id == 0 ? session = {...user,...{["admin"]:"yes"} } : session = user ;   
-            return res.render("users",{user:session,posts:null,users:null})
+            return res.render("users",{user:session,posts:null,users:null,topPost:null})
             }
             else return res.redirect('/api')
-            } 
+            }   
             return res.redirect("/login")
-})      
+})         
 
 // log out here   
 router.get('/logout', (req,res)=> {       
-    session = null;      
+    session = null;     
+    user_id = 5; 
     res.redirect('/api')     
 })     
 
 // access specific user by parameter / query  
 router.route('/:id')       
-            .get((req,res)=> {       
+            .get((req,res,next)=> {          
                 const user_id = req.params.id; 
                 const user = users.find(user => user.id == user_id)
-                res.render('users', { user:user, posts:null,users:null}) 
-            })  
-            .patch((req,res)=> {  
-                   console.log("i am here")   
-            })       
-            .delete((req,res)=> {
-                console.log("i am here")  
+                if(user)
+                  return res.render('users', { user:user, posts:null,users:null,topPost:null}) 
+              next()  
+            })            
+            .patch((req,res,next)=> {  
+               
+            })          
+            .delete((req,res,next)=> { // only admin can delete the user or the user himself
+                const user_id = req.params.id;
+                const user =  users.find((user,index)=> {
+                    if(user.id == user_id){
+                        users.splice(index,1);
+                        return true
+                    }
+                })  
+                if(user) 
+                  return res.redirect('/api/users')
+                next()  
             })     
-     
+        
 function checkUserExist(req,res,next) {
        
 }

@@ -29,6 +29,7 @@ router.route('/')
             posts.forEach( post => {
             usersPosts.push({...post,...getUserById(post.user_id, users)})
             })     
+            console.log(usersPosts)
             return res.render('posts',{posts:usersPosts})})
     .post(upload.single('image'),(req,res)=> {
         if (!req.file) {
@@ -55,21 +56,26 @@ router.route('/:id')
     .get((req,res) => {
         // here I will filter the posts by user_id , return all posts with user_id
         user_id = req.params.id;   
-        posts =  posts.filter(post => post.user_id == user_id)
+        const userPosts =  posts.filter(post => post.user_id == user_id)
         const user = users.find(user => user.id == user_id) // we need the user to pass it to the users template
-        res.render('users',{ user:user,posts:posts,users:null})
+        res.render('users',{ user:user,posts:userPosts,users:null,topPost:findTopPost(posts)})
     })
     .delete((req,res)=> {
         const post_id = parseInt(req.params.id)
         posts = posts.filter(post => post.id !== post_id)
         const user = users.find(user => user.id == user_id)
-        res.render('users',{user:user,posts:posts,users:null})
+        res.render('users',{user:user,posts:posts,users:null,topPost:findTopPost(posts)})
     })  
      
-
 function getUserById(id , userslist) {
   return userslist.find(user => user.id == id)
 
+}
+
+function findTopPost(pos) {
+    let post = null;
+    post = pos.find(post => post.status === "top")
+    return post ;
 }
 
 module.exports = router

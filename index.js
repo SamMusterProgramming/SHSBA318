@@ -22,6 +22,7 @@ app.set("view engine", "ejs");
 app.set("users", "./views");     
 app.set("home", "./views"); 
 app.set("posts", "./views");
+app.set("error", "./views");
 
   
 // routes
@@ -31,6 +32,22 @@ app.get('/api',(req,res) => {
 app.get('/api/register',(req,res) => {
     return res.render('home' , {action:"register", placeHolders:{}})
 }) 
+
+
+// handle errors meddleware
+app.use((req, res, next) => {
+   next(error(404, "Resource Not Found")); // common errors resource not found
+});
+
+app.use((err, req, res, next) => {
+   return res.render('error',{error:err.message, status:err.status})
+});
+
+function error(status, msg) {
+   var err = new Error(msg);
+   err.status = status;
+   return err;
+ }
 
 app.listen(PORT,()=> {
    console.log(`listening on port ${PORT}`)

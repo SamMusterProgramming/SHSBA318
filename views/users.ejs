@@ -21,20 +21,21 @@
                  <h2>  <span style="color: blue;">  Top Post  </span></h2>
               <div style="display: flex; flex-direction:column; justify-content: CENTER; align-items: center;
               width: 600px; height: 300px;border-radius:15px;background-color: rgb(25, 123, 193)">
-              
-                  <% if (posts) { %>
-                    <% posts.forEach(function(post) { %>
-                        <% if (post.status == "top") { %>
-                            <img style="width: 95%;height: 95%;object-fit: fill; border-radius: 10px;"  src= "<%= post.image_url %>" alt="">
-                <div style="position: absolute;">
-                    <button style="background-color: transparent;margin-right:450px;margin-bottom: 150px;  border: none;cursor: pointer;font-size: 25px; color: aliceblue;" > 
-                        <i  class="fa fa-thumbs-up"> <%= post.likes_count %></i>
-                    </button>
-                    <h3 style="color: white;"><%= post.description %></h3>
-                 </div>      
-                 <% } %>    
-                 <% }); %>
-                 <% } %> 
+                 
+                 
+                        <% if (topPost) { %>
+                        <img style="width: 95%;height: 95%;object-fit: fill; border-radius: 10px;"  src= "<%= topPost.image_url  %>" alt="">
+                        <div style="position: absolute;">
+                          <button style="background-color: transparent;margin-right:450px;margin-bottom: 150px;  border: none;cursor: pointer;font-size: 25px; color: aliceblue;" > 
+                              <i  class="fa fa-thumbs-up"> <%= topPost.likes_count %></i>
+                          </button>
+                          <h3 style="color: white;"><%= topPost.description %></h3>
+                        </div>        
+                       <% } else { %>  
+                        <img style="width: 95%;height: 95%;object-fit: fill; border-radius: 10px;"  src= "/static/asset/flower.png" alt="">
+                        <label style="position: absolute;"> NO TOP POST YET </label>
+                       <% } %> 
+                
 
             </div>
          </div>
@@ -88,8 +89,8 @@
 
    <div style="margin-top: 20px; display:flex; width:100%; gap:20px;align-items:center; justify-content: center; background-color: rgb(19, 154, 207);height: 40px; ">
      <% if (user.id == 0) { %>
-        <a href="/api/users/ "> access all users here</a>
-        <a href="/api/posts/ "> access all posts here</a>
+        <a href="/api/users/"> access all users here</a>
+        <a href="/api/posts/"> access all users posts here</a>
         <a  href="/api/posts/ <%= user.id %> ">Access your posts here</a>
      <% } 
      else { %>
@@ -101,7 +102,7 @@
     <div id="displayer" style="margin-top: 30px; display:flex; flex-wrap: wrap; width:100%;height:100%; gap:20px; justify-content: center; ">
     <% if (users) { %>
         <% users.forEach(function(user) { %>
-         <div class="usersDisplayer">
+         <main class="usersDisplayer">
               <div style="display: flex; justify-content: start;align-items:
                  center; gap:10px;margin-left: 30px; width: 100%; height: 20%;">
                  <img id="profileImg" src="<%= user.profile_img %>" alt="">  
@@ -119,15 +120,17 @@
                   <button onClick ="(e)=>handleDelete" style="background-color: transparent; border: none;cursor: pointer;"
                    >  Delete </button>
                   <button > Update</button>
-             
               </div>
-          </div>
+              <input  type="text" style="display: none;" name="user_id" value="<%= user.id %>">
+              <button style="position: absolute;margin-bottom:425px; margin-left: 290px; font-size: 15px; background-color: red; color: white;
+              border-radius: 50px; cursor: pointer;" name="x" value="X"> X </button>
+            </main>
          <% }); %>
         <% } %>
 
         <% if (posts) { %>
         <% posts.forEach(function(post) { %>
-         <div class="usersDisplayer">
+         <form class="usersDisplayer">
               <div style="display: flex; justify-content: start;align-items:
                center; gap:10px;margin-left: 30px; width: 100%; height: 20%;">
                  <img id="profileImg" src="<%= user.profile_img %>" alt="">  
@@ -140,18 +143,18 @@
                  <img id="post" src="<%= post.image_url %>" alt="">
               </div>
               <div style="display: flex;justify-content: space-evenly; align-items: center;
-                 width: 100%;height: 10%;">
+                  width: 100%;height: 10%;">
                   <button style="background-color: transparent; border: none;cursor: pointer;" > <i  class="fa fa-thumbs-up"> <%= post.likes_count %></i></button>
                   <button ><i class="fa fa-chat-dots"></i> Comments</button>
                   <button ><i class="fa fa-share"></i> Share</button>
               </div>
-              <input id="user_id" type="number" style="display: none;" name="user_id" value="<%= user.id %>">
-              <input id="post_id" type="text" style="display: none;" name="post_id" value="<%= post.id %>">
-              <button id="delete" style="position: absolute;margin-bottom: 425px;margin-left: 290px; font-size: 15px; background-color: red; color: white;
-              border-radius: 50px; cursor: pointer;">X</button>
-            </div>
+              <input  type="text" style="display: none;" name="post_id" value="<%= post.id %>">
+              <button style="position: absolute;margin-bottom:425px; margin-left: 290px; font-size: 15px; background-color: red; color: white;
+              border-radius: 50px; cursor: pointer;" name="x" value="X"> X </button>
+         </form>
            <% }); %>
           <% } %>      
+
       </div>  
          
      
@@ -245,21 +248,49 @@
             img.src = URL.createObjectURL(file_upload.files[0]); 
           
             })
-           
+        let displayer = document.getElementById('displayer');   
         let post_id = document.getElementById('post_id')
         let user_id = document.getElementById('user_id')
         const deleteButton = document.getElementById('delete')
-        deleteButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            fetch(`/api/posts/`+ parseInt(post_id.value) , {
-           method: 'DELETE',
-        }).then((response) => {
-           document.getElementById('displayer').innerHTML =
-            "  Sucessfully delete go back to your posts"
-        })
-        })
-   
-        
+        // deleteButton.addEventListener('click', (e) => {
+        //     e.preventDefault();
+        //     fetch(`/api/posts/`+ parseInt(post_id.value) , {
+        //    method: 'DELETE',
+        // }).then((response) => {
+        //    displayer.innerHTML =
+        //    "Sucessfully delete go back to your posts"
+        // })
+        // })
+        let postForm = displayer.querySelectorAll('form')
+        Array.from(postForm, form => {
+            form.addEventListener('click',(e)=>{
+            e.preventDefault()
+            if(e.target.tagName.toLowerCase() == 'button') {
+                if(e.target.value === "X" ){
+                fetch(`/api/posts/` + e.target.previousElementSibling.value ,{  
+                method: 'DELETE',  
+                }).then((response) => {
+                displayer.innerHTML = " Sucessfully delete go back to your posts list" 
+                })
+            }
+           }
+        }) 
+        })   
+        let userDisplayer = displayer.querySelectorAll('main') 
+        Array.from(userDisplayer, form => {
+            form.addEventListener('click',(e)=>{
+            e.preventDefault()
+            if(e.target.tagName.toLowerCase() == 'button') {
+                if(e.target.value === "X" ){
+                fetch(`/api/users/`+ e.target.previousElementSibling.value ,{  
+                method: 'DELETE',  
+                }).then((response) => {
+                displayer.innerHTML = " Sucessfully delete go back to your users list " 
+                })
+            }
+           }
+        }) 
+        })   
          
     </script>
 
