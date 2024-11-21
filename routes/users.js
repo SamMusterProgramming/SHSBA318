@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
     //   cb(null, Date.now() + '-' + file.originalname);
     cb(null,file.originalname);
     }
-  });
+  });   
   
 const upload = multer({ storage: storage });
 
@@ -97,8 +97,8 @@ router.route('/:id')
                     if(user.id == user_id){
                         users.splice(index,1);
                         return true
-                    }
-                })                
+                    }   
+                })                    
                 if(user) 
                   return res.redirect('/api/users')
                 next()  
