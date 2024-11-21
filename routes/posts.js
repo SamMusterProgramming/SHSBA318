@@ -5,9 +5,12 @@ const users = require('../data/usersData.js')
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs')
+const comments = require('../data/commentsData.js')
+
 
 let postId = 5 ; 
 let user_id = -1 ; 
+let commentId = 104;
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
       cb(null, `public/uploads/`);
@@ -29,7 +32,6 @@ router.route('/')
             posts.forEach( post => {
             usersPosts.push({...post,...getUserById(post.user_id, users)})
             })     
-            console.log(usersPosts)
             return res.render('posts',{posts:usersPosts})})
     .post(upload.single('image'),(req,res)=> {
         if (!req.file) {
@@ -44,9 +46,8 @@ router.route('/')
             date : new Date(),
             likes_count : 0,
             status : "no", 
-            comments_id: 100   
+            comments_id: commentId    
         }  
-        console.log(newPost) 
         posts.push(newPost)
         postId++; 
         res.redirect(`/api/posts/${parseInt(req.body.user_id)}`)
@@ -57,14 +58,18 @@ router.route('/:id')
         // here I will filter the posts by user_id , return all posts with user_id
         user_id = req.params.id;   
         const userPosts =  posts.filter(post => post.user_id == user_id)
+        userPosts.forEach(post => {
+            post["comments"] = getComment(post.comments_id)
+        })
+        console.log(userPosts)
         const user = users.find(user => user.id == user_id) // we need the user to pass it to the users template
-        res.render('users',{ user:user,posts:userPosts,users:null,topPost:findTopPost(posts)})
+        res.render('users', { user:user,posts:userPosts,users:null,topPost:findTopPost(posts ,user_id)})
     })
     .delete((req,res)=> {
         const post_id = parseInt(req.params.id)
         posts = posts.filter(post => post.id !== post_id)
         const user = users.find(user => user.id == user_id)
-        res.render('users',{user:user,posts:posts,users:null,topPost:findTopPost(posts)})
+        res.render('users',{user:user,posts:posts,users:null,topPost:findTopPost(posts,user_id)})
     })  
      
 function getUserById(id , userslist) {
@@ -72,10 +77,15 @@ function getUserById(id , userslist) {
 
 }
 
-function findTopPost(pos) {
+function findTopPost(pos, userID) {
     let post = null;
-    post = pos.find(post => post.status === "top")
+    post = pos.find(post => {post.status == "top" && post.user_id == userID })
     return post ;
 }
+function getComment(commentID) {
+    return comments.find(comment => comment.id == commentID)
+}
+
+
 
 module.exports = router

@@ -35,7 +35,7 @@ const posts = [ {
     date : new Date(),
     likes_count : 3568,
     status : "no",
-    comments_id: 100 
+    comments_id: 100      
 },{
     id : 6,
     user_id :0,
@@ -44,7 +44,7 @@ const posts = [ {
     date : new Date('now'),
     likes_count:1256,
     status : "no",
-    comments_id: 100 
+    comments_id: 101 
 },{  
     id : 7,
     user_id :0,
@@ -53,7 +53,7 @@ const posts = [ {
     date : new Date(),
     likes_count:51568,
     status : "top",
-    comments_id: 100 
+    comments_id: 102 
 },{
     id : 8,
     user_id :0,
@@ -62,7 +62,7 @@ const posts = [ {
     date : new Date(),
     likes_count:8652,
     status : "no",  
-    comments_id: 100 
+    comments_id: 103 
 },{
     id : 9,
     user_id :1,
@@ -71,7 +71,7 @@ const posts = [ {
     date : new Date(),
     likes_count : 3568,
     status : "no",
-    comments_id: 100   
+    comments_id: 104   
 }
 ]
 
