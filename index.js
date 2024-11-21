@@ -21,8 +21,9 @@ app.use('/static', express.static('public'))
 app.set("view engine", "ejs"); 
 app.set("users", "./views");     
 app.set("home", "./views"); 
-app.set("posts", "./views");
+app.set("posts", "./views");   
 app.set("error", "./views");
+app.set("post" ,"./views")
 
   
 // routes
@@ -34,7 +35,7 @@ app.get('/api/register',(req,res) => {
 }) 
 
 
-// handle errors meddleware
+//handle errors meddleware
 app.use((req, res, next) => {
    next(error(404, "Resource Not Found")); // common errors resource not found
 });
@@ -49,7 +50,7 @@ function error(status, msg) {
    return err;
  }
 
-app.listen(PORT,()=> {
+app.listen(PORT,()=> {   
    console.log(`listening on port ${PORT}`)
 })
 

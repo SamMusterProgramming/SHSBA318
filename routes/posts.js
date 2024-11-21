@@ -5,7 +5,7 @@ const users = require('../data/usersData.js')
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs')
-const comments = require('../data/commentsData.js')
+const comments = require('../data/commentsData.js');
 
 
 let postId = 5 ; 
@@ -52,16 +52,27 @@ router.route('/')
         postId++; 
         res.redirect(`/api/posts/${parseInt(req.body.user_id)}`)
     })      
-     
+   
+    
+// use query to select a post for a user in the session 
+router.get('/post',(req,res)=> {
+    let post = posts.find(post => post.id == req.query.post_id)
+    let user = users.find(user =>user.id == user_id)
+    const comments = getComment(post.comments_id)
+    console.log(comments.content)
+    res.render('post', {user:user,  post:post , comments:comments.content})
+})      
+        
+
+
 router.route('/:id') 
-    .get((req,res) => {
+    .get((req,res) => {   
         // here I will filter the posts by user_id , return all posts with user_id
         user_id = req.params.id;   
         const userPosts =  posts.filter(post => post.user_id == user_id)
         userPosts.forEach(post => {
             post["comments"] = getComment(post.comments_id)
         })
-        console.log(userPosts)
         const user = users.find(user => user.id == user_id) // we need the user to pass it to the users template
         res.render('users', { user:user,posts:userPosts,users:null,topPost:findTopPost(posts ,user_id)})
     })
@@ -71,7 +82,10 @@ router.route('/:id')
         const user = users.find(user => user.id == user_id)
         res.render('users',{user:user,posts:posts,users:null,topPost:findTopPost(posts,user_id)})
     })  
-     
+
+
+
+         
 function getUserById(id , userslist) {
   return userslist.find(user => user.id == id)
 

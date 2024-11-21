@@ -77,7 +77,7 @@ router.get('/logout', (req,res)=> {
     session = null;     
     user_id = 5; 
     res.redirect('/api')     
-})     
+})         
 
 // access specific user by parameter / query  
 router.route('/:id')       
@@ -87,7 +87,7 @@ router.route('/:id')
                 if(user)
                   return res.render('users', { user:user, posts:null,users:null,topPost:null}) 
               next()  
-            })            
+            })              
             .patch((req,res,next)=> {  
                
             })          
@@ -98,12 +98,12 @@ router.route('/:id')
                         users.splice(index,1);
                         return true
                     }
-                })  
+                })                
                 if(user) 
                   return res.redirect('/api/users')
                 next()  
             })     
-        
+                
 function checkUserExist(req,res,next) {
        
 }

@@ -33,8 +33,16 @@ let comments =  [
     id :103,
     content:[ {
         date : new Date(),
-        user_d:2,
+        user_d:2,  
         comment :"right"
+    },{
+        date : new Date(),
+        user_d:1,
+        comment :"right"
+    },{
+        date : new Date(),
+        user_d:0,
+        comment :"hello there , how y'all are doing ? "
     }]
    }
 ]
